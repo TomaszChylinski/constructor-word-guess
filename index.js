@@ -27,3 +27,8 @@ var cars = [
     "suzuki",
     "bmw"
 ];
+
+var randomIndex = cars[Math.floor(Math.random() * cars.length)];
+console.log("show my word " + randomIndex);
+
+
