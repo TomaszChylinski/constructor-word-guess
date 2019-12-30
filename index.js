@@ -1,5 +1,5 @@
-var word = require("word.js");
-var letter = require("letter.js");
+var word = require("./word.js");
+var letter = require("./letter.js");
 
 
 var letterArrary = "";
