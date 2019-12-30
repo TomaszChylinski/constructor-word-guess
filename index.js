@@ -28,7 +28,23 @@ var cars = [
     "bmw"
 ];
 
+function choseRandomWord(){
 var randomIndex = cars[Math.floor(Math.random() * cars.length)];
 console.log("show my word " + randomIndex);
+}
+
+//var cpuWord = new Word(randomWord);
+//console.log(cpuWord + ' show cpu word')
+
+var requireNewWord = false;
+var correctLetters = [];
+var incorrectLetters = [];
+
+var guessesLeft = 10;
+
+function mainGame(){
 
 
+
+}
+mainGame()
