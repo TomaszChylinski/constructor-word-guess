@@ -32,23 +32,23 @@ var randomIndex = cars[Math.floor(Math.random() * cars.length)];
 //console.log("show my word " + randomIndex);
 var cpuWord = new word(randomIndex); //pass new word to constructor
 
-var requireWord = false; //changes upon an if 
+var requireWord = false; //changes upon an if
 var correctLetters = []; //contain correct and incorrect letters in an arrary
-var incorrectLetters = []; 
+var incorrectLetters = [];
 var guessesLeft = 10; //user has 10 guesses
 
+function mainGame() {
+  //a new word will be generated if true
 
-function mainGame() {   //a new word will be generated if true
-
-  if (requireWord) {     //select new word again if true
+  if (requireWord) {
+    //select new word again if true
     var randomIndex = cars[Math.floor(Math.random() * cars.length)];
-    var cpuWord = new word(randomIndex); 
+    var cpuWord = new word(randomIndex);
 
     var requireWord = false; //new word generated change requireWord back to false
   }
 
-
-  var wordComplete = [];  // check if letter guessed correctly
+  var wordComplete = []; // check if letter guessed correctly
   computerWord.objArray.forEach(completeCheck);
 
   // promt user to make a guess until lose or win
@@ -65,43 +65,56 @@ function mainGame() {   //a new word will be generated if true
         if (
           !letterArray.includes(input.userinput) ||
           input.userinput.length > 1
-        ){
+        ) {
           console.log("Try Again!");
           worldComplete();
-        }else{
+        } else {
           if (
-          incorrectLetters.includes(input.userinput) ||
-          correctLetters.includes(input.userinput) ||
-          input.userinput === ""
-        ) {
-          console.log("Please Try Again, Word Already Guessed")
-          worldComplete();
-        }else{ // check if winner
-          var wordCheckArray = [];
-          computerWord.userGuess(input.userinput);
+            incorrectLetters.includes(input.userinput) ||
+            correctLetters.includes(input.userinput) ||
+            input.userinput === ""
+          ) {
+            console.log("Please Try Again, Word Already Guessed");
+            worldComplete();
+          } else {
+            // check if winner
+            var wordCheckArray = [];
+            computerWord.userGuess(input.userinput);
 
-          completeWord.objArray.forEach(wordCheck);
-          if(wordCheckArray.join("") === wordComplete.join("")){
-            console.log("Incorrect");
+            completeWord.objArray.forEach(wordCheck);
+            if (wordCheckArray.join("") === wordComplete.join("")) {
+              console.log("Incorrect");
 
-            incorrectLetters.push(input.userInput); // pushes incorrect letter to the incorrectLetters arrary
-            guessesLeft--;
-          }else{
-            console.log("Corect");
+              incorrectLetters.push(input.userInput); // pushes incorrect letter to the incorrectLetters arrary
+              guessesLeft--;
+            } else {
+              console.log("Corect");
 
-            correctLetters.push(input.userInput) // pushes correct letter to the correctLetters arrary
+              correctLetters.push(input.userInput); // pushes correct letter to the correctLetters arrary
+            }
+            computerWord.log();
+
+            console.log("Guess Left: " + guessesLeft);
+            console.log("Letters Guesed: " + incorrectLetters.join(" "));
+
+            //restart game if guesses run out
+            if (guessesLeft > 0) {
+              mainGame();
+            } else {
+              console.log("sorry you lost");
+              restartGame();
+            }
+
+            function wordCheck(key) {
+              wordCheckArray.push(key.guessed);
+            }
           }
-          computerWord.log();
-
-          console.log("Guess Left: " + guessesLeft);
-          console.log("Letters Guesed: " + incorrectLetters.join(" "))
-
         }
       });
-  } else {
-    console.log("Winner");
   }
 }
+
+
 
 function restartGame() {
   inquirer
