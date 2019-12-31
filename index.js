@@ -49,7 +49,7 @@ function mainGame() {
   }
 
   var wordComplete = []; // check if letter guessed correctly
-  computerWord.objArray.forEach(completeCheck);
+  cpuWord.objArray.forEach(completeCheck);
 
   // promt user to make a guess until lose or win
   if (completeWord.includes(false)) {
@@ -63,7 +63,7 @@ function mainGame() {
       ])
       .then(function(input) {
         if (
-          !letterArray.includes(input.userinput) ||
+          !letterArrary.includes(input.userinput) ||
           input.userinput.length > 1
         ) {
           console.log("Try Again!");
@@ -79,7 +79,7 @@ function mainGame() {
           } else {
             // check if winner
             var wordCheckArray = [];
-            computerWord.userGuess(input.userinput);
+            cpuWord.userGuess(input.userinput);
 
             completeWord.objArray.forEach(wordCheck);
             if (wordCheckArray.join("") === wordComplete.join("")) {
@@ -92,7 +92,7 @@ function mainGame() {
 
               correctLetters.push(input.userInput); // pushes correct letter to the correctLetters arrary
             }
-            computerWord.log();
+            cpuWord.log();
 
             console.log("Guess Left: " + guessesLeft);
             console.log("Letters Guesed: " + incorrectLetters.join(" "));
@@ -114,8 +114,6 @@ function mainGame() {
   }
 }
 
-
-
 function restartGame() {
   inquirer
     .prompt([
@@ -123,12 +121,20 @@ function restartGame() {
         type: "list",
         messages: "would you like to play again",
         choices: ["Yes", "No"],
-        name: "Play Again?"
+        name: "playagain"
       }
     ])
-    .then(function(userChoice) {
-      console.log("hello ", userChoice, "restart game ");
+    .then(function(input) {
+      if (input.playagain === "Yes") {
+        requireWord = true;
+        incorrectLetters = [];
+        correctLetters = [];
+        guessesLeft = 10;
+        mainGame();
+      } else {
+        return;
+      }
     });
 }
-restartGame();
+
 mainGame();
