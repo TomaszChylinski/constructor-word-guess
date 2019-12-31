@@ -1,5 +1,5 @@
 var word = require("./word.js");
-var inquirer = require("inquirer");
+
 
 var letterArrary = "abcdefghijklmnopqrstuvwxyz";
 
@@ -48,6 +48,7 @@ var guessesLeft = 10; //user has 10 guesses
 
 function mainGame() {
   //a new word will be generated if true
+
   if (requireWord) {
     //select new word again if true
     var randomWord = cars[Math.floor(Math.random() * cars.length)];
@@ -60,13 +61,13 @@ function mainGame() {
   computerWord.objArray.forEach(completeCheck);
 
   // promt user to make a guess until lose or win
-  if (wordComplete.includes(false)) {
+  if (completeWord.includes(false)) {
     inquirer
       .prompt([
         {
           type: "input",
           messages: "Select a letter A to Z",
-          name: "userinput"
+          name: "userInput"
         }
       ])
       .then(function(input) {
@@ -75,7 +76,7 @@ function mainGame() {
           input.userinput.length > 1
         ) {
           console.log("Try Again!");
-          mainGame();
+          worldComplete();
         } else {
           if (
             incorrectLetters.includes(input.userinput) ||
@@ -83,11 +84,10 @@ function mainGame() {
             input.userinput === ""
           ) {
             console.log("Please Try Again, Word Already Guessed");
-            mainGame();
+            worldComplete();
           } else {
             // check if guess is correct
             var wordCheckArray = [];
-            
             computerWord.userGuess(input.userinput);
 
             computerWord.objArray.forEach(wordCheck);

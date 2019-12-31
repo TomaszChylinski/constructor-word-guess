@@ -1,6 +1,7 @@
 var letter = require("./letter.js");
 
 
+
 function word(answer){
 
     this.objArrary = [];
