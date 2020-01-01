@@ -28,11 +28,16 @@ var cars = [
   "bmw"
 ];
 
-var randomWord = cars[Math.floor(Math.random() * cars.length)];
-var computerWord = new word(randomWord); //pass new word to constructor
+
+// Pick Random index from UnitedStates array
+var randomIndex = Math.floor(Math.random() * cars.length);
+var randomWord = cars[randomIndex];
+
+// Pass random word through Word constructor
+var computerWord = new word(randomWord);
 
 
-var requireWord = false; //changes upon an if
+var requireNewWord = false;
 
 var correctLetters = []; //contain correct and incorrect letters in an arrary
 var incorrectLetters = [];
@@ -49,19 +54,23 @@ var guessesLeft = 10; //user has 10 guesses
 function mainGame() {
   //a new word will be generated if true
 
-  if (requireWord) {
+  if (requireNewWord) {
     //select new word again if true
-    var randomWord = cars[Math.floor(Math.random() * cars.length)];
-    var computerWord = new word(randomWord);
+// Pick Random index from UnitedStates array
+var randomIndex = Math.floor(Math.random() * cars.length);
+var randomWord = cars[randomIndex];
 
-    var requireWord = false; //new word generated change requireWord back to false
+// Pass random word through Word constructor
+computerWord = new word(randomWord);
+
+requireNewWord = false; //new word generated change requireWord back to false
   }
 
   var wordComplete = []; // check if letter guessed correctly
   computerWord.objArray.forEach(completeCheck);
 
   // promt user to make a guess until lose or win
-  if (completeWord.includes(false)) {
+  if (wordComplete.includes(false)) {
     inquirer
       .prompt([
         {
@@ -76,7 +85,7 @@ function mainGame() {
           input.userinput.length > 1
         ) {
           console.log("Try Again!");
-          worldComplete();
+          mainGame();
         } else {
           if (
             incorrectLetters.includes(input.userinput) ||
@@ -84,7 +93,7 @@ function mainGame() {
             input.userinput === ""
           ) {
             console.log("Please Try Again, Word Already Guessed");
-            worldComplete();
+            mainGame();
           } else {
             // check if guess is correct
             var wordCheckArray = [];
@@ -143,7 +152,7 @@ function restartGame() {
     ])
     .then(function(input) {
       if (input.playagain === "Yes") {
-        requireWord = true;
+        requireNewWord = true;
         incorrectLetters = [];
         correctLetters = [];
         guessesLeft = 10;
