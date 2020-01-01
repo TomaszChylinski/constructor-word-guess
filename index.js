@@ -75,7 +75,7 @@ requireNewWord = false; //new word generated change requireWord back to false
       .prompt([
         {
           type: "input",
-          messages: "Select a letter A to Z",
+          message: "Select a letter A to Z",
           name: "userInput"
         }
       ])
@@ -145,7 +145,7 @@ function restartGame() {
     .prompt([
       {
         type: "list",
-        messages: "would you like to play again",
+        message: "would you like to play again",
         choices: ["Yes", "No"],
         name: "playagain"
       }
