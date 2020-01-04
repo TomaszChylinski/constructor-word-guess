@@ -1,125 +1,159 @@
-var word = require("./word.js");
+var Word = require("./word.js");
 var inquirer = require("inquirer");
 
-var letterArrary = "abcdefghijklmnopqrstuvwxyz";
+// letters entry
+var letterArray = "abcdefghijklmnopqrstuvwxyz";
 
-// list of cars to spell
-var cars = [
-  "ferrari",
-  "toyota",
-  "chevrolet",
-  "honda",
-  "lexus",
-  "acura",
-  "hyundai",
-  "volvo",
-  "audi",
-  "volkswagon",
-  "nissan",
-  "mercedas",
-  "subaru",
-  "land rover",
-  "jeep",
-  "lamborghini",
-  "bentley",
-  "chrystler",
-  "fiat",
-  "suzuki",
-  "bmw"
+// List of words to choose from
+var UnitedStates = [
+  "alabama",
+  "alaska",
+  "arizona",
+  "arkansas",
+  "california",
+  "colorado",
+  "connecticut",
+  "delaware",
+  "florida",
+  "georgia",
+  "hawaii",
+  "idaho",
+  "illinois",
+  "indiana",
+  "iowa",
+  "kansas",
+  "kentucky",
+  "louisiana",
+  "maine",
+  "maryland",
+  "massachusetts",
+  "michigan",
+  "minnesota",
+  "mississippi",
+  "missouri",
+  "montana",
+  "nebraska",
+  "neveda",
+  "new hampshire",
+  "new jersey",
+  "new mexico",
+  "new york",
+  "north carolina",
+  "north dakota",
+  "ohio",
+  "oklahoma",
+  "oregon",
+  "pennsylvania",
+  "rhode island",
+  "south carolina",
+  "south dakota",
+  "tennessee",
+  "texas",
+  "utah",
+  "vermont",
+  "virginia",
+  "washington",
+  "west virginia",
+  "wisconsin",
+  "wyoming"
 ];
 
-
 // Pick Random index from UnitedStates array
-var randomIndex = Math.floor(Math.random() * cars.length);
-var randomWord = cars[randomIndex];
+var randomIndex = Math.floor(Math.random() * UnitedStates.length);
+var randomWord = UnitedStates[randomIndex];
 
 // Pass random word through Word constructor
-var computerWord = new word(randomWord);
-
+var computerWord = new Word(randomWord);
 
 var requireNewWord = false;
 
-var correctLetters = []; //contain correct and incorrect letters in an arrary
+// Array for guessed letters
 var incorrectLetters = [];
+var correctLetters = [];
 
-var guessesLeft = 10; //user has 10 guesses
+// Guesses left
+var guessesLeft = 10;
 
-
-
-
-
-//start of game -------
-
-
-function mainGame() {
-  //a new word will be generated if true
-
+function theLogic() {
+  // Generates new word for Word constructor if true
   if (requireNewWord) {
-    //select new word again if true
-// Pick Random index from UnitedStates array
-var randomIndex = Math.floor(Math.random() * cars.length);
-var randomWord = cars[randomIndex];
+    // Selects random UnitedStates array
+    var randomIndex = Math.floor(Math.random() * UnitedStates.length);
+    var randomWord = UnitedStates[randomIndex];
 
-// Pass random word through Word constructor
-computerWord = new word(randomWord);
+    // Passes random word through the Word constructor
+    computerWord = new Word(randomWord);
 
-requireNewWord = false; //new word generated change requireWord back to false
+    requireNewWord = false;
   }
 
-  var wordComplete = []; // check if letter guessed correctly
+  // TestS if a letter guessed is correct
+  var wordComplete = [];
   computerWord.objArray.forEach(completeCheck);
 
-  // promt user to make a guess until lose or win
+  // letters remaining to be guessed
   if (wordComplete.includes(false)) {
     inquirer
       .prompt([
         {
           type: "input",
-          message: "Select a letter A to Z",
-          name: "userInput"
+          message: "Guess a letter between A-Z!",
+          name: "userinput"
         }
       ])
+
       .then(function(input) {
         if (
-          !letterArrary.includes(input.userinput) ||
+          !letterArray.includes(input.userinput) ||
           input.userinput.length > 1
         ) {
-          console.log("Try Again!");
-          mainGame();
+          console.log("\nPlease try again!\n");
+          theLogic();
         } else {
           if (
             incorrectLetters.includes(input.userinput) ||
             correctLetters.includes(input.userinput) ||
             input.userinput === ""
           ) {
-            console.log("Please Try Again, Word Already Guessed");
-            mainGame();
+            console.log("\nAlready Guessed or Nothing Entered\n");
+            theLogic();
           } else {
-            // check if guess is correct
+            // Checks if guess is correct
+
             var wordCheckArray = [];
+
             computerWord.userGuess(input.userinput);
 
+            // Checks if guess is correct
             computerWord.objArray.forEach(wordCheck);
             if (wordCheckArray.join("") === wordComplete.join("")) {
-              console.log("Incorrect");
+              console.log("\nIncorrect\n");
 
-              incorrectLetters.push(input.userInput); // pushes incorrect letter to the incorrectLetters arrary
+              incorrectLetters.push(input.userinput);
               guessesLeft--;
             } else {
-              console.log("Corect");
+              console.log("\nCorrect!\n");
 
-              correctLetters.push(input.userInput); // pushes correct letter to the correctLetters arrary
+              correctLetters.push(input.userinput);
             }
+
             computerWord.log();
 
-            console.log("Guess Left: " + guessesLeft);
-            console.log("Letters Guesed: " + incorrectLetters.join(" "));
+            // Print guesses left
+            console.log("Guesses Left: " + guessesLeft + "\n");
 
-            //restart game if guesses run out
+            // Print letters guessed already
+            console.log(
+              "Letters Guessed: " + incorrectLetters.join(" ") + "\n"
+            );
+
+            // Guesses left
             if (guessesLeft > 0) {
-              mainGame();
+              // Call function
+              theLogic();
             } else {
-              console.log("sorry you lost");
+              console.log("Sorry, you lose!\n");
+
               restartGame();
             }
 
@@ -130,13 +164,13 @@ requireNewWord = false; //new word generated change requireWord back to false
         }
       });
   } else {
-    console.log("Congrats You Won!");
+    console.log("YOU WIN!\n");
 
     restartGame();
   }
 
-  function completeCheck(key){
-    wordComplete.push(key.guessed)
+  function completeCheck(key) {
+    wordComplete.push(key.guessed);
   }
 }
 
@@ -145,22 +179,22 @@ function restartGame() {
     .prompt([
       {
         type: "list",
-        message: "would you like to play again",
-        choices: ["Yes", "No"],
-        name: "playagain"
+        message: "Would you like to:",
+        choices: ["Play Again", "Exit"],
+        name: "restart"
       }
     ])
     .then(function(input) {
-      if (input.playagain === "Yes") {
+      if (input.restart === "Play Again") {
         requireNewWord = true;
         incorrectLetters = [];
         correctLetters = [];
         guessesLeft = 10;
-        mainGame();
+        theLogic();
       } else {
         return;
       }
     });
 }
 
-mainGame();
+theLogic();

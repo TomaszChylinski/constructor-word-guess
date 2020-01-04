@@ -1,12 +1,12 @@
-var letter = require("./letter.js");
+var Letter = require("./letter.js");
 
-function word(answer) {
+function Word(answer) {
   //Letter objects array
   this.objArray = [];
 
   for (var i = 0; i < answer.length; i++) {
-    var userLetter = new letter(answer[i]);
-    this.objArray.push(userLetter);
+    var letter = new Letter(answer[i]);
+    this.objArray.push(letter);
   }
 
   this.log = function() {
@@ -24,4 +24,4 @@ function word(answer) {
   };
 }
 
-module.exports = word;
+module.exports = Word;
