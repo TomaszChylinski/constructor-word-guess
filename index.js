@@ -5,65 +5,36 @@ var inquirer = require("inquirer");
 var letterArray = "abcdefghijklmnopqrstuvwxyz";
 
 // List of words to choose from
-var UnitedStates = [
-  "alabama",
-  "alaska",
-  "arizona",
-  "arkansas",
-  "california",
-  "colorado",
-  "connecticut",
-  "delaware",
-  "florida",
-  "georgia",
-  "hawaii",
-  "idaho",
-  "illinois",
-  "indiana",
-  "iowa",
-  "kansas",
-  "kentucky",
-  "louisiana",
-  "maine",
-  "maryland",
-  "massachusetts",
-  "michigan",
-  "minnesota",
-  "mississippi",
-  "missouri",
-  "montana",
-  "nebraska",
-  "neveda",
-  "new hampshire",
-  "new jersey",
-  "new mexico",
-  "new york",
-  "north carolina",
-  "north dakota",
-  "ohio",
-  "oklahoma",
-  "oregon",
-  "pennsylvania",
-  "rhode island",
-  "south carolina",
-  "south dakota",
-  "tennessee",
-  "texas",
-  "utah",
-  "vermont",
-  "virginia",
-  "washington",
-  "west virginia",
-  "wisconsin",
-  "wyoming"
+var cars = [
+  "ferrari",
+  "toyota",
+  "chevrolet",
+  "honda",
+  "lexus",
+  "acura",
+  "hyundai",
+  "volvo",
+  "audi",
+  "volkswagon",
+  "nissan",
+  "mercedas",
+  "subaru",
+  "land rover",
+  "jeep",
+  "lamborghini",
+  "bentley",
+  "chrystler",
+  "fiat",
+  "suzuki",
+  "bmw"
 ];
 
 // Pick Random index from UnitedStates array
-var randomIndex = Math.floor(Math.random() * UnitedStates.length);
-var randomWord = UnitedStates[randomIndex];
+var randomIndex = cars[Math.floor(Math.random() * cars.length)];
+
 
 // Pass random word through Word constructor
-var computerWord = new Word(randomWord);
+var computerWord = new Word(randomIndex);
 
 var requireNewWord = false;
 
@@ -74,15 +45,14 @@ var correctLetters = [];
 // Guesses left
 var guessesLeft = 10;
 
-function theLogic() {
+function mainGame() {
   // Generates new word for Word constructor if true
   if (requireNewWord) {
     // Selects random UnitedStates array
-    var randomIndex = Math.floor(Math.random() * UnitedStates.length);
-    var randomWord = UnitedStates[randomIndex];
+    randomIndex = cars[Math.floor(Math.random() * cars.length)];
 
     // Passes random word through the Word constructor
-    computerWord = new Word(randomWord);
+    computerWord = new Word(randomIndex);
 
     requireNewWord = false;
   }
@@ -97,18 +67,17 @@ function theLogic() {
       .prompt([
         {
           type: "input",
-          message: "Guess a letter between A-Z!",
+          message: "Chose a letter between A-Z!",
           name: "userinput"
         }
       ])
-
       .then(function(input) {
         if (
           !letterArray.includes(input.userinput) ||
           input.userinput.length > 1
         ) {
           console.log("\nPlease try again!\n");
-          theLogic();
+          mainGame();
         } else {
           if (
             incorrectLetters.includes(input.userinput) ||
@@ -116,10 +85,9 @@ function theLogic() {
             input.userinput === ""
           ) {
             console.log("\nAlready Guessed or Nothing Entered\n");
-            theLogic();
+            mainGame();
           } else {
             // Checks if guess is correct
-
             var wordCheckArray = [];
 
             computerWord.userGuess(input.userinput);
@@ -150,7 +118,7 @@ function theLogic() {
             // Guesses left
             if (guessesLeft > 0) {
               // Call function
-              theLogic();
+              mainGame();
             } else {
               console.log("Sorry, you lose!\n");
 
@@ -190,11 +158,11 @@ function restartGame() {
         incorrectLetters = [];
         correctLetters = [];
         guessesLeft = 10;
-        theLogic();
+        mainGame();
       } else {
         return;
       }
     });
 }
 
-theLogic();
+mainGame();
