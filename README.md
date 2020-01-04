@@ -10,6 +10,7 @@ Using node.js and inquirer.js this application allows a user to guess the correc
             - run `node index.js`
     
     2. Once above command ran, user should be able to input a letter.
+            <img src="assets/images/word-guess-step2.png"> 
             ![](assets/images/word-guess-step2.png)
 
 
