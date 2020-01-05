@@ -24,7 +24,7 @@ Using node.js and inquirer.js this application allows a user to guess the correc
 
     **Correct Guess** 
     3. User select correct letter
-            User will be asked to chose another letter.
+        User will be asked to chose another letter.
                 * The correctLetters arrary will store the guessed letter
                 * The correct letter will replace the underscore dash with its correct index 
                 ![](assets/images/word-guess-step3b.png)
@@ -33,11 +33,22 @@ Using node.js and inquirer.js this application allows a user to guess the correc
     4. User runs out of remaining guesses
         User will be asked to Play Again
                 * Once guessesLeft reaches 0 the game will determine that the user has lost the game
-                * 
-
+                * User will be alerted that he has lost
+                * User will be prompted if they want to play again
+                ![](assets/images/word-guess-step4a.png)
 
     **User Wins**
-    4. 
-
+    4. User successfully guesses the correct car
+        User will be asked to Play Again
+                * User will be alerted that he has won
+                * User will be prompted if they want to play again
+                ![](assets/images/word-guess-step4b.png)
 
     **Restart Game**
+    5. User will be able to restart their game once they win or lose
+        User will be able to chose from two options
+                * Play again option will trigger the mainGame function that would kick start the game over
+                * Exit will allow the user to quit the game and enter back into the cmd promt
+                ![](assets/images/word-guess-step5a.png)
+        
+         
